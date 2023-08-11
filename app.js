@@ -17,9 +17,9 @@ require('dotenv').config()
 //dbconnection
 db((arg)=>{
     if(arg){
-        console.log('Database Connected')
+         
     }else{
-        console.log('Database Error')
+         
     }
 })
 
@@ -42,12 +42,12 @@ app.use('/admin',adminRouter)
 app.use('/chat',chatRouter)
 
 const server =  app.listen(process.env.PORT,()=>{
-    console.log('Server Running');
+     ;
 })
 
 const io = socketIO(server, {
     cors: {
-      origin: ["https://admin.socket.io","http://localhost:4200"],
+      origin: ["https://admin.socket.io","http://localhost:4200", "http://localhost:5500"],
       credentials: true
     }
   });

@@ -14,7 +14,7 @@ const path = require('path')
             const filetypes = /pdf/; // Allowed file extensions
             const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
             const mimetype = filetypes.test(file.mimetype);
-            console.log(file.originalname, "filename#");
+             ;
             if (mimetype && extname) {
                 return callback(null, true);
             } else {

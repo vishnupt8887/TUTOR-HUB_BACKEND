@@ -13,12 +13,12 @@ module.exports = {
           authenticated:false,
           data:{}
       }
-      console.log(+"RES LOCALS...................................................................");
+       ;
       let jwtSecret = process.env.JWT_TOKEN;
       const authHeader = req.headers.authorization;
    
       const token = authHeader && authHeader.split(' ')[1];
-       console.log(token,'fhusahur');
+        ;
       if (!token) {
           apiRes.message = 'Missing authorization header'
         return res.status(200).json(apiRes);
@@ -31,7 +31,7 @@ module.exports = {
         
         next()
       } catch (err) {
-        console.log(err);
+         ;
           apiRes.message = 'Invalid token'
         res.status(200).json(apiRes);
       }

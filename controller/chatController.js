@@ -2,17 +2,17 @@ const chatRooms = require('../model/chatSchema')
 const student = require('../model/studentSchema')
 module.exports = {
     getChatRoom:(req, res, next) => {
-        console.log('geting room..................................')
+         
         // Array<{tutor?: String ,student? : String,userName:String, message: {msg:any,date:Date}}>
         let messages
         let room = req.params.room;
         chatRooms.find({name:room}).populate({path:'messages.student',select:'_id name'})
         .populate({path:'messages.tutor',select:'_id name'}).then((data)=>{
-            console.log(data);
+             ;
             messages = data
             if(data.length > 0){
                 messages = data[0].messages.map(message =>{
-                    console.log(message);
+                     ;
                      return ({
                     
                     student: message?.student?._id,
@@ -22,7 +22,7 @@ module.exports = {
                     
                   })})
             }
-               console.log(messages,'last');
+                ;
             res.status(200).json({data:messages})
            
         })
@@ -31,9 +31,9 @@ module.exports = {
       try {
         
         const tutorId = res.locals.jwtUSER._id
-       console.log(tutorId,'kkkkkkkkkkkkkkkkkkkkkkkkk');
+        ;
     const chatrooms = await chatRooms.find({}).select({name:1,_id:0})
-console.log(chatrooms,'chatrooms')
+ 
    chatrooms.forEach((element,i) => {
     if (element.name.includes(tutorId)) {
       // If present, remove string2 from string1
@@ -45,14 +45,14 @@ console.log(chatrooms,'chatrooms')
   
    const chatSample = await student.find({_id:{$in:chatrooms.map(obj=> obj.name)}}).select({name:1,email:1}) 
    
-   console.log(chatSample,'chat',tutorId)
+    
 
     res.status(200).json({
         data:chatSample
     })
 
       } catch (error) {
-        console.log(error);
+         ;
       }
     }
 }

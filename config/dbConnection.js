@@ -7,7 +7,7 @@ module.exports.db= function (cb){
         cb(true)
     })
     db.on('error',(err)=>{
-        console.log(err)
+         
         cb(false)
     })
 }

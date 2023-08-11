@@ -12,7 +12,10 @@ const {
     ratingData,
     questionFetch,
     assignmentFetch,
-    videoFetch
+    videoFetch,
+    paymentStart,
+    verifyPayment,
+    studentClass
 } = require('../controller/studentController')
 
 
@@ -27,5 +30,7 @@ router.post('/reviewSubmit',jwt.verify,ratingData)
 router.get('/questionFetch/:id/:currentpage/:pagesize',questionFetch)
 router.get('/assignmentFetch/:id/:currentpage/:pagesize',assignmentFetch)
 router.get('/videoFetch/:id/:currentpage/:pagesize',videoFetch)
-
+router.get('/studentClass/:currentpage/:pagesize',jwt.verify,studentClass)
+router.post('/paymentStart',paymentStart)
+router.post('/verifyPayment',verifyPayment)
 module.exports = router

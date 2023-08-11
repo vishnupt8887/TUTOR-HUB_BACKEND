@@ -26,6 +26,7 @@ const {
     questionDelete,
     assignmentDelete,
     videoDelete,
+    studentInClass,
 } = require('../controller/tutorController')
 
 router.post('/signup',signup)
@@ -47,6 +48,7 @@ router.post('/videoUpload/:clsId',videoUpload.single('video'),videoUploads)
 router.get('/videoFetch/:id/:currentpage/:pagesize',videoFetch)
 router.post('/questionAdd/:clsId',upload.single('pdf'),jwt.verify,questionAdd)
 router.get('/questionFetch/:id/:currentpage/:pagesize',questionFetch)
+router.get('/studentsInClass/:id/:currentpage/:pagesize',studentInClass)
 router.get('/questionDelete/:id/:clsId',questionDelete)
 router.get('/assignmentDelete/:id/:clsId',assignmentDelete)
 router.get('/videoDelete/:id/:clsId',videoDelete)
