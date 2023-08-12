@@ -492,7 +492,6 @@ module.exports = {
             res.status(200).json({ success:true})
 
         } catch (error) {
-             ;
             res.status(200).json({ data: null, success: false, error: 'Server failure' })
         }
     },
