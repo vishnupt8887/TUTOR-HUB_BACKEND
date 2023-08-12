@@ -6,6 +6,9 @@ const chatScheme = new mongoose.Schema({
    name:{type:String,
     index:true,
 },
+
+
+
    messages:{type:[{
     student:{
         type:Types.ObjectId,

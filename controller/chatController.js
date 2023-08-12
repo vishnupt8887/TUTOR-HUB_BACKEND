@@ -6,6 +6,7 @@ module.exports = {
         // Array<{tutor?: String ,student? : String,userName:String, message: {msg:any,date:Date}}>
         let messages
         let room = req.params.room;
+       console.log(room);
         chatRooms.find({name:room}).populate({path:'messages.student',select:'_id name'})
         .populate({path:'messages.tutor',select:'_id name'}).then((data)=>{
              ;
@@ -25,16 +26,20 @@ module.exports = {
                 ;
             res.status(200).json({data:messages})
            
+        }).catch((e)=> {
+          res.status(200).json({data:[]})
         })
     },
      chatRooms:async(req,res,next) =>{
       try {
         
         const tutorId = res.locals.jwtUSER._id
-        ;
+        
+       
     const chatrooms = await chatRooms.find({}).select({name:1,_id:0})
  
    chatrooms.forEach((element,i) => {
+    
     if (element.name.includes(tutorId)) {
       // If present, remove string2 from string1
       element.name = element.name.substring(element.name.length - 24);
@@ -42,10 +47,11 @@ module.exports = {
       chatrooms.splice(i,1)
     }
    });
-  
+  console.log(chatrooms,'ROMMMS');
    const chatSample = await student.find({_id:{$in:chatrooms.map(obj=> obj.name)}}).select({name:1,email:1}) 
    
-    
+    console.log(chatSample,'hjhjhjhjh')
+   
 
     res.status(200).json({
         data:chatSample

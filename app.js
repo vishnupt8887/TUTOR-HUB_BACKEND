@@ -25,7 +25,7 @@ db((arg)=>{
 
 //cors
 const corsOption = {
-    origin: "http://localhost:4200",
+    origin:["http://localhost:4200","https://tutorhub.timezonewatch.store"],
     methods: "GET,PUT,PATCH,POST,DELETE",
     allowedHeaders: 'Content-Type, Authorization',
     optionsSuccessStatus: 204
@@ -47,7 +47,7 @@ const server =  app.listen(process.env.PORT,()=>{
 
 const io = socketIO(server, {
     cors: {
-      origin: ["https://admin.socket.io","http://localhost:4200", "http://localhost:5500"],
+      origin: ["https://admin.socket.io","http://localhost:4200", "http://localhost:5500","https://tutorhub.timezonewatch.store"],
       credentials: true
     }
   });

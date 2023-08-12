@@ -16,7 +16,6 @@ module.exports = {
                             email: process.env.AD_EMAIL,
                             password: process.env.AD_PASSWORD,
                         })
-                         ;
                         res.status(200).json({ data: null, success: true, token: token.tocken, error: null })
                     } else {
                         res.status(200).json({ data: null, success: false, error: 'Enter the correct password' })
