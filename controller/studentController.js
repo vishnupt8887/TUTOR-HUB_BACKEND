@@ -352,24 +352,29 @@ module.exports = {
         const crypto = require('crypto')
         const Razorpay = require('razorpay')
         const {amount} = req.body;
-        const instance = new Razorpay({
-           key_id : 'rzp_test_ljYqmwHMTBq3V8',
-            key_secret : 'yixVolFFESVi2d0CV74jCko3'
-          })
-      
-          const options = {
-            amount: parseInt(amount)*100,
-            currency: "INR",
-            receipt: crypto.randomBytes(10).toString('hex')
-          }
-
-          instance.orders.create(options, (error, order) => {
-            if (error) {
-               ;
-              return res.status(500).json({ message: 'Something gone wrong' })
-            }
-            res.status(200).json({ data: order })
-          })
+        try {
+            const instance = new Razorpay({
+                key_id : 'rzp_test_ljYqmwHMTBq3V8',
+                 key_secret : 'yixVolFFESVi2d0CV74jCko3'
+               })
+           
+               const options = {
+                 amount: parseInt(amount)*100,
+                 currency: "INR",
+                 receipt: crypto.randomBytes(10).toString('hex')
+               }
+     
+               instance.orders.create(options, (error, order) => {
+                 if (error) {
+                    ;
+                   return res.status(500).json({ message: 'Something gone wrong' })
+                 }
+                 res.status(200).json({ data: order })
+                })
+            } catch (error) {
+            res.status(200).json({ message: 'Something gone wrong' })
+            
+        }
       
       
     },
