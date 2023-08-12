@@ -372,6 +372,7 @@ module.exports = {
                  res.status(200).json({ data: order })
                 })
             } catch (error) {
+                console.log(error);
             res.status(200).json({ message: 'Something gone wrong' })
             
         }
