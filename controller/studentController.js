@@ -7,8 +7,6 @@ const Payment = require('../model/paymentSchema')
 module.exports = {
     signup : async(req,res)=>{
         try {
-             ;
-            // let apiRes = {}
             if(req.body.name &&
                req.body.email &&
                req.body.password &&
@@ -20,7 +18,6 @@ module.exports = {
                 if(emailCheck == true){
                     if(req.body.password == req.body.repassword){
                         req.body.password = await bcrypt.hash(req.body.password, 10)
-                         ;
                         let check = await students.findOne({email:req.body.email})
                         if(!check){
                             let newData = students({
@@ -33,11 +30,7 @@ module.exports = {
                                 let tocken = jwt.sign({
                                     _id : data._id
                                 })
-                               
-                                // apiRes.tocken = tocken
                                 res.status(200).json({data:data,success:true,token:tocken.tocken,error:null})
-                                // apiRes.message = 'signup successfully'
-                                // res.json(apiRes)
                             })
                         }else{
                             res.status(200).json({data:null,success:false,error:'Email allready exist'})
@@ -53,14 +46,12 @@ module.exports = {
                 res.status(200).json({data:null,success:false,error:'Fill the required field'})
                }
         } catch (error) {
-             
             res.status(200).json({ data: null, success: false, error: 'Server failure' })
         }
     },
 
     login : async(req,res)=>{
         try {
-             ;
             if(req.body.email && req.body.password){
                 let userr = await students.findOne({email:req.body.email})
                 if(userr){
@@ -83,7 +74,6 @@ module.exports = {
                 res.status(200).json({data:null,success:false,error:'Fill the required field '})
             }
         } catch (error) {
-             
             res.status(200).json({ data: null, success: false, error: 'Server failure' })
         }
     },
@@ -116,15 +106,10 @@ module.exports = {
             transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {
                     res.status(401).json({ err: `Internal Server error` })
-                     ;
                 } else {
-                   
-                     ;
                     res.status(200).json({status:true})
                 }
-            });
-
-
+            })
         } catch (error) {
             res.status(200).json({ data: null, success: false, error: 'Server failure' })
         }
@@ -136,27 +121,21 @@ module.exports = {
                 return res.status(200).json({ error: `student is logged out` })
             }else{
                 res.status(200).json({ data:cls })
-
             }
         } catch (error) {
-             ;
            res.status(200).json({ data: null, success: false, error: 'Server failure' })
         }
     },
     classDetail : async(req,res)=>{
         try {
-             
-             
             const clsId = req.body.id
             const cls = await classModel.findOne({_id:clsId}).populate('tutor').populate('review.student')
             if(!cls || cls == null){
                 return res.status(200).json({ error: `student is logged out` })
             }else{
                 res.status(200).json({ data:cls })
-
             }
         } catch (error) {
-             ;
            res.status(200).json({ data: null, success: false, error: 'Server failure' })
         }
     },
@@ -166,7 +145,6 @@ module.exports = {
             const classId = req.params.id
            await classModel.findByIdAndUpdate({_id:classId},{$addToSet:{students:studentId}})
         } catch (error) {
-             ;
             res.status(200).json({ data: null, success: false, error: 'Server failure' })
         }
     },
@@ -174,24 +152,17 @@ module.exports = {
         try {
             const page = parseInt(req.params.currentpage);
             const pageSize = parseInt(req.params.pagesize);
-             ;
-             ;
             const skip = (page - 1) * pageSize;
             const totalCount = await classModel.countDocuments();
-             ;
             const data = await classModel.find().skip(skip).limit(pageSize);
-             ;
             res.status(200).json({ data, totalCount });
         } catch (error) {
-             ;
             res.status(200).json({ data: null, success: false, error: 'Server failure' })
         }
     },
     ratingData : async (req,res)=>{
         try {
-             ;
             if(req.body?.star != '' && req.body?.comment != ''){
-               ;
               const studentId = res.locals.jwtUSER._id
               const classId = req.body._id
               const star = req.body.star
@@ -212,33 +183,24 @@ module.exports = {
                 res.status(200).json({ data: null, success: false, error: 'All field is required' })
             }
         } catch (error) {
-             ;
             res.status(200).json({ data: null, success: false, error: 'Server failure' })
         }
     },
 
     questionFetch: async(req,res)=>{
         try {
-             ;
             const classId = req.params.id;
             const page = parseInt(req.params.currentpage) || 1;
             let limit = parseInt(req.params.pagesize) || 6;
-             ;
-             ;
-        
             const startIndex = (page - 1) * limit;
             const qs = await classModel.findOne({_id:classId})
             const questionPaperCount = qs.questionPaper.length;
-            
-             ;
             const qns = await classModel.findById(classId)
               
              if(limit > questionPaperCount - startIndex){
                   limit =  questionPaperCount - startIndex
              }
-              ;
               const question = qns.questionPaper.splice(startIndex,limit)
-               ;
             if (!question) {
               return res.status(200).json({ success: false, error: 'Question paper not found' });
             }
@@ -251,38 +213,28 @@ module.exports = {
               success: true,
               error: null
             })
-        } catch (error) {
-             
+        } catch (error) { 
           res.status(200).json({ data: null, success: false, error: 'Server failure' })
         }
     },
 
     assignmentFetch: async(req,res)=>{
         try {
-             ;
             const classId = req.params.id;
             const page = parseInt(req.params.currentpage) || 1;
             let limit = parseInt(req.params.pagesize) || 6;
-             ;
-             ;
-        
             const startIndex = (page - 1) * limit;
             const as = await classModel.findOne({_id:classId})
             const assignmentCount = as.assignment.length;
-            
-             ;
             const a = await classModel.findById(classId)
               
              if(limit > assignmentCount - startIndex){
                   limit =  assignmentCount - startIndex
              }
-              ;
               const assignment = a.assignment.splice(startIndex,limit)
-               ;
             if (!assignment) {
               return res.status(200).json({ success: false, error: 'assignment not found' });
             }
-        
             res.status(200).json({
               data: assignment,
               page,
@@ -292,32 +244,23 @@ module.exports = {
               error: null
             })
         } catch (error) {
-             
           res.status(200).json({ data: null, success: false, error: 'Server failure' })
         }
     },
     videoFetch: async(req,res)=>{
         try {
-             ;
             const classId = req.params.id;
             const page = parseInt(req.params.currentpage) || 1;
             let limit = parseInt(req.params.pagesize) || 6;
-             ;
-             ;
-        
             const startIndex = (page - 1) * limit;
             const as = await classModel.findOne({_id:classId})
             const videoCount = as.video.length;
-            
-             ;
             const a = await classModel.findById(classId)
               
              if(limit > videoCount - startIndex){
                   limit =  videoCount - startIndex
              }
-              ;
               const video = a.video.splice(startIndex,limit)
-               ;
             if (!video) {
               return res.status(200).json({ success: false, error: 'video not found' });
             }
@@ -330,19 +273,16 @@ module.exports = {
               success: true,
               error: null
             })
-        } catch (error) {
-             
+        } catch (error) { 
           res.status(200).json({ data: null, success: false, error: 'Server failure' })
         }
     },
     studentCheck : async (req,res)=>{
         try {
             let st = res.locals.jwtUSER
-             ;
             const student = await students.findById({_id:st._id})
             res.status(200).json({ data:student});
         } catch (error) {
-             ;
             res.status(200).json({ data: null, success: false, error: 'Server failure' })
         }
     },
@@ -366,18 +306,13 @@ module.exports = {
      
                instance.orders.create(options, (error, order) => {
                  if (error) {
-                    ;
                    return res.status(500).json({ message: 'Something gone wrong' })
                  }
                  res.status(200).json({ data: order })
                 })
             } catch (error) {
-                console.log(error);
             res.status(200).json({ message: 'Something gone wrong' })
-            
         }
-      
-      
     },
 
     verifyPayment : async (req,res) => {
@@ -392,33 +327,22 @@ module.exports = {
              await payment.save()
              res.status(200).json({data:payment,status:'success'})
          }).catch((e)=> {
-             ;
             res.status(200).json({status:'failed'})
          })
     },
 
     studentClass : async (req,res) =>{
         try {
-             ;
             const sId = res.locals.jwtUSER._id
-            // const classId = req.params.id;
             const page = parseInt(req.params.currentpage) || 1;
             let limit = parseInt(req.params.pagesize) || 6;
-             ;
-             ;
-        
             const startIndex = (page - 1) * limit;
             const c = await classModel.find({students:sId}).populate('tutor')
             const classCount = c.length
-            
-             
-              
              if(limit > classCount - startIndex){
                   limit =  classCount - startIndex
              }
-              ;
               const cls = c.splice(startIndex,limit)
-               ;
             if (!cls) {
               return res.status(200).json({ success: false, error: 'Question paper not found' });
             }
@@ -431,33 +355,10 @@ module.exports = {
               success: true,
               error: null
             })
-            // const sId = res.locals.jwtUSER._id
-            // const cls = await classModel.find({students:sId})
-            // res.status(200).json({data:cls,success: true})
         } catch (error) {
-             ;
             res.status(200).json({ data: null, success: false, error: 'Server failure' })
         }
     }
-
-
-
-
-
-
-
-
-
-    // reviewSubmit : async (req,res)=>{
-    //     try {
-    //          ;
-    //         const classId = req.body.id
-    //         await classModel.findByIdAndUpdate({_id:classId},{$addToSet:{review}})
-    //     } catch (error) {
-    //          ;
-    //         res.status(200).json({ data: null, success: false, error: 'Server failure' })
-    //     }
-    // }
 }
 
 

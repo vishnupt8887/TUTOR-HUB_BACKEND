@@ -9,21 +9,16 @@ module.exports = {
        console.log(room);
         chatRooms.find({name:room}).populate({path:'messages.student',select:'_id name'})
         .populate({path:'messages.tutor',select:'_id name'}).then((data)=>{
-             ;
             messages = data
             if(data.length > 0){
                 messages = data[0].messages.map(message =>{
-                     ;
                      return ({
-                    
                     student: message?.student?._id,
                     tutor: message?.tutor?._id,
                     userName: message?.student?.name ?? message?.tutor?.name,
-                    message:{msg:message.message,date: message.date}
-                    
+                    message:{msg:message.message,date: message.date} 
                   })})
             }
-                ;
             res.status(200).json({data:messages})
            
         }).catch((e)=> {
